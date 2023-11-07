@@ -401,11 +401,11 @@ public class SQLiteJDBCLoader {
         static {
             URL versionFile =
                     VersionHolder.class.getResource(
-                            "/META-INF/maven/io.github.willena/sqlite-jdbc/pom.properties");
+                            "/META-INF/maven/com.gluonhq/sqlcipher-jdbc/pom.properties");
             if (versionFile == null) {
                 versionFile =
                         VersionHolder.class.getResource(
-                                "/META-INF/maven/io.github.willena/sqlite-jdbc/VERSION");
+                                "/META-INF/maven/com.gluonhq/sqlcipher-jdbc/VERSION");
             }
 
             String version = "unknown";
