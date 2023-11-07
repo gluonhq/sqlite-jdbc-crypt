@@ -277,10 +277,7 @@ public class SQLiteMCPragmaTest {
         File testDB = File.createTempFile("test.db", "", new File("target"));
         testDB.deleteOnExit();
 
-        SQLiteMCConfig config =
-                new SQLiteMCConfig.Builder()
-                        .withKey("abc")
-                        .build();
+        SQLiteMCConfig config = new SQLiteMCConfig.Builder().withKey("abc").build();
         config.setPageSize(65536);
         config.setAutoVacuum(SQLiteConfig.AutoVacuum.INCREMENTAL);
         config.setEncoding(SQLiteConfig.Encoding.UTF_16LE);

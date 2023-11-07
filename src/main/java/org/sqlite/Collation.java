@@ -23,8 +23,9 @@ import org.sqlite.core.DB;
 /**
  * Provides an interface for creating SQLite user-defined collations.
  *
- * <p>A subclass of <code>org.sqlite.Collation</code> can be registered with <code>Collation.create()</code>
- * and called by the name it was given. All collations must implement <code>xCompare(String,
+ * <p>A subclass of <code>org.sqlite.Collation</code> can be registered with <code>
+ * Collation.create()</code> and called by the name it was given. All collations must implement
+ * <code>xCompare(String,
  * String)</code>, which is called when SQLite compares two strings using the custom collation. Eg.
  *
  * <pre>
