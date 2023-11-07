@@ -1,23 +1,9 @@
 <settings>
     <servers>
         <server>
-            <id>ossrh</id>
-            <username>${env.SONATYPE_USERNAME}</username>
-            <password>${env.SONATYPE_PASSWORD}</password>
+            <id>gluon-nexus</id>
+            <username>${env.GLUON_NEXUS_USERNAME}</username>
+            <password>${env.GLUON_NEXUS_PASSWORD}</password>
         </server>
     </servers>
-
-    <profiles>
-        <profile>
-            <id>ossrh</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.keyname>Guillaume Villena</gpg.keyname>
-                <gpg.executable>gpg</gpg.executable>
-                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-            </properties>
-        </profile>
-    </profiles>
 </settings>

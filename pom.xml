@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.willena</groupId>
-    <artifactId>sqlite-jdbc</artifactId>
+    <groupId>com.gluonhq</groupId>
+    <artifactId>sqlcipher-jdbc</artifactId>
     <version>3.41.2.1</version>
     <name>SQLite JDBC</name>
-    <description>SQLite JDBC library with encryption and authentication support</description>
-    <url>https://github.com/Willena/sqlite-jdbc-crypt</url>
+    <description>SQLite JDBC library with SQLCipher encryption and authentication support</description>
+    <url>https://github.com/gluonhq/sqlite-jdbc-crypt</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,10 +27,10 @@
 
     <developers>
         <developer>
-            <id>Willena</id>
-            <name>Guillaume Villena</name>
-            <email>contact@guillaumevillena.fr</email>
-            <organization>Guillaume's projects</organization>
+            <id>gluon</id>
+            <name>Gluon</name>
+            <email>support@gluonhq.com</email>
+            <organization>Gluon</organization>
             <roles>
                 <role>Maintainer</role>
             </roles>
@@ -247,23 +247,21 @@
     </build>
 
     <scm>
-        <connection>scm:git:git://github.com/xerial/sqlite-jdbc.git</connection>
-        <developerConnection>scm:git:git@github.com:xerial/sqlite-jdbc.git</developerConnection>
-        <url>https://github.com/xerial/sqlite-jdbc</url>
+        <connection>scm:git:git://github.com/gluonhq/sqlite-jdbc-crypt.git</connection>
+        <developerConnection>scm:git:git@github.com:gluonhq/sqlite-jdbc-crypt.git</developerConnection>
+        <url>https://github.com/gluonhq/sqlite-jdbc-crypt</url>
     </scm>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <name>Sonatype Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>gluon-nexus</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>gluon-nexus</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/public-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <profiles>
         <profile>

@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 11
+          java-version: 17
           java-package: jdk
           cache: 'maven'
       - name: Source versions from VERSION file
@@ -32,41 +32,41 @@ jobs:
         env:
           OCI_EXE: docker
         run: make all
-      - name: Package DLL binaries
-        run: zip -r ./sqlite-natives-$artifactVersion.zip ./src/main/resources/org/sqlite/native
+      - name: Package native libraries
+        run: zip -r ./sqlcipher-natives-$artifactVersion.zip ./src/main/resources/org/sqlite/native
       - uses: actions/upload-artifact@v3
         with:
-          name: SQLiteMC DLL Binaries
+          name: SQLCipher DLL Binaries
           path: |
-            ./sqlite-natives-${{ env.artifactVersion }}.zip
+            ./sqlcipher-natives-${{ env.artifactVersion }}.zip
             ./target/*.jar
 
-      - name: Prepare GPG sign
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in ./scripts/private.key.enc -out /tmp/private.key -d
-          gpg --version
-          gpg --batch --import /tmp/private.key
-          rm /tmp/private.key
+#      - name: Prepare GPG sign
+#        if: startsWith(github.ref, 'refs/tags/')
+#        run: |
+#          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in ./scripts/private.key.enc -out /tmp/private.key -d
+#          gpg --version
+#          gpg --batch --import /tmp/private.key
+#          rm /tmp/private.key
       - name: Deploy version
         env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GLUON_NEXUS_USERNAME: ${{ secrets.GLUON_NEXUS_USERNAME }}
+          GLUON_NEXUS_PASSWORD: ${{ secrets.GLUON_NEXUS_PASSWORD }}
+          # GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         if: startsWith(github.ref, 'refs/tags/')
         run: make deploy
       - name: Deploy Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: "SQLite-jdbc-${{ env.artifactVersion }}"
+          name: "SQLCipher-jdbc-${{ env.artifactVersion }}"
           generate_release_notes: true
           files: |
-            ./sqlite-natives-${{ env.artifactVersion }}.zip
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}.jar
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}-javadoc.jar
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}-sources.jar
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}.jar.asc
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}-javadoc.jar.asc
-            ./target/sqlite-jdbc-${{ env.artifactVersion }}-sources.jar.asc
+            ./sqlcipher-natives-${{ env.artifactVersion }}.zip
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}.jar
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-javadoc.jar
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-sources.jar
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}.jar.asc
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-javadoc.jar.asc
+            ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-sources.jar.asc
 
