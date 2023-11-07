@@ -187,9 +187,8 @@
                 <version>1.6.13</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <serverId>gluon-nexus</serverId>
+                    <nexusUrl>https://nexus.gluonhq.com/nexus/</nexusUrl>
                 </configuration>
             </plugin>
 
