@@ -232,8 +232,8 @@ MAC_SDK := /Developer/SDKs/MacOSX10.10.sdk
 ifeq ($(wildcard MAC_SDK),)
 	MAC_SDK := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
 endif
-Mac-x86_64_CCFLAGS    := -I$(MAC_SDK)/System/Library/Frameworks/JavaVM.framework/Headers -Ilib/inc_mac -Os -fPIC -mmacosx-version-min=10.6 -fvisibility=hidden -msse4.2 -maes -Wno-implicit-function-declaration
-Mac-x86_64_LINKFLAGS := -dynamiclib -lcrypto
+Mac-x86_64_CCFLAGS    := -I$(MAC_SDK)/System/Library/Frameworks/JavaVM.framework/Headers -Ilib/inc_mac -Os -fPIC -mmacosx-version-min=10.6 -fvisibility=hidden -msse4.2 -maes -Wno-implicit-function-declaration -DSQLCIPHER_CRYPTO_CC
+Mac-x86_64_LINKFLAGS := -dynamiclib -framework Security -framework Foundation
 Mac-x86_64_LIBNAME   := libsqlitejdbc.jnilib
 Mac-x86_64_SQLITE_FLAGS  := 
 
@@ -242,8 +242,8 @@ Mac-x86_64_SQLITE_FLAGS  :=
 Mac-aarch64_CC        := $(CROSS_PREFIX)clang
 Mac-aarch64_STRIP     := $(CROSS_PREFIX)strip -x
 MAC_SDK := /usr/osxcross/SDK/MacOSX11.3.sdk
-Mac-aarch64_CCFLAGS    := -I$(MAC_SDK)/System/Library/Frameworks/JavaVM.framework/Headers -Ilib/inc_mac -Os -fPIC -mmacosx-version-min=10.9 -fvisibility=hidden -Wno-implicit-function-declaration
-Mac-aarch64_LINKFLAGS  := -dynamiclib -lcrypto
+Mac-aarch64_CCFLAGS    := -I$(MAC_SDK)/System/Library/Frameworks/JavaVM.framework/Headers -Ilib/inc_mac -Os -fPIC -mmacosx-version-min=10.9 -fvisibility=hidden -Wno-implicit-function-declaration -DSQLCIPHER_CRYPTO_CC
+Mac-aarch64_LINKFLAGS  := -dynamiclib -framework Security -framework Foundation
 Mac-aarch64_LIBNAME    := libsqlitejdbc.jnilib
 Mac-aarch64_SQLITE_FLAGS := 
 
