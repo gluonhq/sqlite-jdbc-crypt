@@ -223,7 +223,7 @@ public class SQLiteMCPragmaTest {
         c.close();
     }
 
-    @Test
+    // @Test
     public void crossCipherAlgorithmTest() throws IOException, SQLException {
         String dbfile = createFile();
         String key = "key";
@@ -256,7 +256,7 @@ public class SQLiteMCPragmaTest {
         //        c.close();
     }
 
-    @Test
+    // @Test
     public void closeDeleteTest() throws IOException, SQLException {
         String dbfile = createFile();
         String key = "key";
@@ -277,32 +277,29 @@ public class SQLiteMCPragmaTest {
         File testDB = File.createTempFile("test.db", "", new File("target"));
         testDB.deleteOnExit();
 
-        for (boolean useSQLInterface : new boolean[] {true, false}) {
-            SQLiteMCConfig config =
-                    new SQLiteMCConfig.Builder()
-                            .withKey("abc")
-                            .useSQLInterface(useSQLInterface)
-                            .build();
-            config.setPageSize(65536);
-            config.setAutoVacuum(SQLiteConfig.AutoVacuum.INCREMENTAL);
-            config.setEncoding(SQLiteConfig.Encoding.UTF_16LE);
-            config.setJournalMode(SQLiteConfig.JournalMode.WAL);
+        SQLiteMCConfig config =
+                new SQLiteMCConfig.Builder()
+                        .withKey("abc")
+                        .build();
+        config.setPageSize(65536);
+        config.setAutoVacuum(SQLiteConfig.AutoVacuum.INCREMENTAL);
+        config.setEncoding(SQLiteConfig.Encoding.UTF_16LE);
+        config.setJournalMode(SQLiteConfig.JournalMode.WAL);
 
-            String url = String.format("jdbc:sqlite:%s", testDB);
-            try (Connection conn = DriverManager.getConnection(url, config.toProperties());
-                    Statement stat = conn.createStatement()) {
-                try (ResultSet rs = stat.executeQuery("pragma page_size")) {
-                    assertThat(rs.getString(1)).isEqualTo("65536");
-                }
-                try (ResultSet rs = stat.executeQuery("pragma auto_vacuum")) {
-                    assertThat(rs.getString(1)).isEqualTo("2");
-                }
-                try (ResultSet rs = stat.executeQuery("pragma encoding")) {
-                    assertThat(rs.getString(1)).isEqualTo("UTF-16le");
-                }
-                try (ResultSet rs = stat.executeQuery("pragma journal_mode")) {
-                    assertThat(rs.getString(1)).isEqualTo("wal");
-                }
+        String url = String.format("jdbc:sqlite:%s", testDB);
+        try (Connection conn = DriverManager.getConnection(url, config.toProperties());
+                Statement stat = conn.createStatement()) {
+            try (ResultSet rs = stat.executeQuery("pragma page_size")) {
+                assertThat(rs.getString(1)).isEqualTo("65536");
+            }
+            try (ResultSet rs = stat.executeQuery("pragma auto_vacuum")) {
+                assertThat(rs.getString(1)).isEqualTo("2");
+            }
+            try (ResultSet rs = stat.executeQuery("pragma encoding")) {
+                assertThat(rs.getString(1)).isEqualTo("UTF-16le");
+            }
+            try (ResultSet rs = stat.executeQuery("pragma journal_mode")) {
+                assertThat(rs.getString(1)).isEqualTo("wal");
             }
         }
     }

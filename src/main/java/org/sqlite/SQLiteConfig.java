@@ -624,11 +624,7 @@ public class SQLiteConfig {
         PLAINTEXT_HEADER_SIZE(
                 "plaintext_header_size",
                 "Allows to configure the cipher scheme to keep the database header partially unencrypted",
-                null),
-        MC_USE_SQL_INTERFACE(
-                "mc_use_sql_interface",
-                "Set if the SQL interface for SQLiteMC commands must be used",
-                OnOff);
+                null);
 
         public final String pragmaName;
         public final String[] choices;

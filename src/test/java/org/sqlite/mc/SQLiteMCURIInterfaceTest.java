@@ -215,7 +215,6 @@ public class SQLiteMCURIInterfaceTest {
                         .setLegacy(1)
                         .setKdfIter(4000)
                         .withKey(Key2)
-                        .useSQLInterface(true)
                         .build()
                         .createConnection("jdbc:sqlite:file:" + dbfile);
         assertThat(databaseIsReadable(c)).isTrue();

@@ -63,18 +63,10 @@ public class SQLiteMCConfig extends SQLiteConfig {
         pragmaParams.remove(Pragma.KDF_ALGORITHM.pragmaName);
         pragmaParams.remove(Pragma.HMAC_ALGORITHM.pragmaName);
         pragmaParams.remove(Pragma.PLAINTEXT_HEADER_SIZE.pragmaName);
-        pragmaParams.remove(Pragma.MC_USE_SQL_INTERFACE.pragmaName);
 
         // Configure before applying the key
         // Call the Cipher parameter function
         try (Statement statement = conn.createStatement()) {
-            boolean useSQLInterface =
-                    Boolean.parseBoolean(
-                            pragmaTable.getProperty(
-                                    Pragma.MC_USE_SQL_INTERFACE.getPragmaName(), "false"));
-
-            String cipherProperty = pragmaTable.getProperty(Pragma.CIPHER.getPragmaName(), null);
-
             // if (cipherProperty == null) throw new SQLException("Cipher name could not be empty at
             // this stage");
 
@@ -82,24 +74,8 @@ public class SQLiteMCConfig extends SQLiteConfig {
                 String property = pragmaTable.getProperty(pragma.getPragmaName(), null);
 
                 if (property != null) {
-                    if (!useSQLInterface)
-                        statement.execute(
-                                String.format("PRAGMA %s = %s", pragma.getPragmaName(), property));
-                    else {
-                        if (pragma.equals(Pragma.CIPHER)) {
-                            String sql =
-                                    String.format(
-                                            "SELECT sqlite3mc_config('default:%s', '%s');",
-                                            pragma.getPragmaName(), cipherProperty);
-                            statement.execute(sql);
-                        } else {
-                            String sql =
-                                    String.format(
-                                            "SELECT sqlite3mc_config('%s', 'default:%s', %s);",
-                                            cipherProperty, pragma.getPragmaName(), property);
-                            statement.execute(sql);
-                        }
-                    }
+                    statement.execute(
+                            String.format("PRAGMA %s = %s", pragma.getPragmaName(), property));
                 }
             }
         }
@@ -196,15 +172,6 @@ public class SQLiteMCConfig extends SQLiteConfig {
 
         public Builder setCipher(CipherAlgorithm cipherAlgorithm) {
             setPragma(SQLiteConfig.Pragma.CIPHER, cipherAlgorithm.getValue());
-            return this;
-        }
-
-        public Builder useSQLInterface() {
-            return useSQLInterface(true);
-        }
-
-        public Builder useSQLInterface(boolean sqlInterface) {
-            setPragma(Pragma.MC_USE_SQL_INTERFACE, sqlInterface ? "true" : "false");
             return this;
         }
 
