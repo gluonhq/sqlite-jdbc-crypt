@@ -23,8 +23,8 @@ import org.sqlite.core.DB;
 /**
  * Provides an interface for creating SQLite user-defined functions.
  *
- * <p>A subclass of <tt>org.sqlite.Function</tt> can be registered with <tt>Function.create()</tt>
- * and called by the name it was given. All functions must implement <tt>xFunc()</tt>, which is
+ * <p>A subclass of <code>org.sqlite.Function</code> can be registered with <code>Function.create()</code>
+ * and called by the name it was given. All functions must implement <code>xFunc()</code>, which is
  * called when SQLite runs the custom function. E.g.
  *
  * <pre>
@@ -40,10 +40,10 @@ import org.sqlite.core.DB;
  *      conn.createStatement().execute("select myFunc();");
  *  </pre>
  *
- * <p>Arguments passed to a custom function can be accessed using the <tt>protected</tt> functions
- * provided. <tt>args()</tt> returns the number of arguments passed, while
- * <tt>value_&lt;type&gt;(int)</tt> returns the value of the specific argument. Similarly, a
- * function can return a value using the <tt>result(&lt;type&gt;)</tt> function.
+ * <p>Arguments passed to a custom function can be accessed using the <code>protected</code> functions
+ * provided. <code>args()</code> returns the number of arguments passed, while
+ * <code>value_&lt;type&gt;(int)</code> returns the value of the specific argument. Similarly, a
+ * function can return a value using the <code>result(&lt;type&gt;)</code> function.
  */
 public abstract class Function {
     /**
@@ -140,14 +140,14 @@ public abstract class Function {
     }
 
     /**
-     * Called by SQLite as a custom function. Should access arguments through <tt>value_*(int)</tt>,
-     * return results with <tt>result(*)</tt> and throw errors with <tt>error(String)</tt>.
+     * Called by SQLite as a custom function. Should access arguments through <code>value_*(int)</code>,
+     * return results with <code>result(*)</code> and throw errors with <code>error(String)</code>.
      */
     protected abstract void xFunc() throws SQLException;
 
     /**
      * Returns the number of arguments passed to the function. Can only be called from
-     * <tt>xFunc()</tt>.
+     * <code>xFunc()</code>.
      */
     protected final synchronized int args() throws SQLException {
         checkContext();
@@ -155,7 +155,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to return a value.
+     * Called by <code>xFunc</code> to return a value.
      *
      * @param value
      */
@@ -165,7 +165,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to return a value.
+     * Called by <code>xFunc</code> to return a value.
      *
      * @param value
      */
@@ -175,7 +175,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to return a value.
+     * Called by <code>xFunc</code> to return a value.
      *
      * @param value
      */
@@ -185,7 +185,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to return a value.
+     * Called by <code>xFunc</code> to return a value.
      *
      * @param value
      */
@@ -194,14 +194,14 @@ public abstract class Function {
         db.result_long(context, value);
     }
 
-    /** Called by <tt>xFunc</tt> to return a value. */
+    /** Called by <code>xFunc</code> to return a value. */
     protected final synchronized void result() throws SQLException {
         checkContext();
         db.result_null(context);
     }
 
     /**
-     * Called by <tt>xFunc</tt> to return a value.
+     * Called by <code>xFunc</code> to return a value.
      *
      * @param value
      */
@@ -211,7 +211,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to throw an error.
+     * Called by <code>xFunc</code> to throw an error.
      *
      * @param err
      */
@@ -221,7 +221,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */
@@ -231,7 +231,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */
@@ -241,7 +241,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */
@@ -251,7 +251,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */
@@ -261,7 +261,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */
@@ -271,7 +271,7 @@ public abstract class Function {
     }
 
     /**
-     * Called by <tt>xFunc</tt> to access the value of an argument.
+     * Called by <code>xFunc</code> to access the value of an argument.
      *
      * @param arg
      */

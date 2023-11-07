@@ -1006,7 +1006,7 @@ public class SQLiteConfig {
      * references to the table anywhere in the schema will be converted to the new name.
      *
      * @param flag True to turn on legacy alter table behaviour; false to turn off.
-     * @see <a href="https://www.sqlite.org/pragma.html#pragma_legacy_alter_table</a>
+     * @see <a href="https://www.sqlite.org/pragma.html#pragma_legacy_alter_table">Legacy alter table</a>
      */
     public void setLegacyAlterTable(boolean flag) {
         set(Pragma.LEGACY_ALTER_TABLE, flag);
@@ -1177,9 +1177,9 @@ public class SQLiteConfig {
      *       <li>DEFAULT - the compile-time C preprocessor macro SQLITE_TEMP_STORE is used to
      *           determine where temporary tables and indices are stored
      *       <li>FILE - temporary tables and indices are stored in a file.
+     *       <li>MEMORY - temporary tables and indices are kept in as if they were pure in-memory
+     *           databases memory
      *     </ul>
-     *     <li>MEMORY - temporary tables and indices are kept in as if they were pure in-memory
-     *         databases memory
      * @see <a
      *     href="https://www.sqlite.org/pragma.html#pragma_temp_store">www.sqlite.org/pragma.html#pragma_temp_store</a>
      */

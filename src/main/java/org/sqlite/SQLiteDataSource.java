@@ -313,7 +313,7 @@ public class SQLiteDataSource implements DataSource {
      * references to the table anywhere in the schema will be converted to the new name.
      *
      * @param flag True to turn on legacy alter table behaviour; false to turn off.
-     * @see <a href="https://www.sqlite.org/pragma.html#pragma_legacy_alter_table</a>
+     * @see <a href="https://www.sqlite.org/pragma.html#pragma_legacy_alter_table">Legacy alter table</a>
      */
     public void setLegacyAlterTable(boolean flag) {
         config.setLegacyAlterTable(flag);

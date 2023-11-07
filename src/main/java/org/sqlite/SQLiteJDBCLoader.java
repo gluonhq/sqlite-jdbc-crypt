@@ -391,7 +391,7 @@ public class SQLiteJDBCLoader {
     }
 
     /**
-     * This class will load the version from resources during <clinit>. By initializing this at
+     * This class will load the version from resources during &lt;clinit&gt;. By initializing this at
      * build-time in native-image, the resources do not need to be included in the native
      * executable, and we're eliminating the IO operations as well.
      */
