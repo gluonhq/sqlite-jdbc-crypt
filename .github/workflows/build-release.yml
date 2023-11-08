@@ -88,5 +88,4 @@ jobs:
           LDFLAGS: -L"C:/Program Files/OpenSSL/lib"
         run: |
           make native
-          cat config.log
           cat target/sqlcipher-3.39.4.0/config.log
