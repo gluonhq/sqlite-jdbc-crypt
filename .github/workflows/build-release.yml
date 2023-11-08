@@ -84,4 +84,6 @@ jobs:
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
+          CFLAGS: -I"C:/Program Files/OpenSSL/include"
+          LDFLAGS: -L"C:/Program Files/OpenSSL/lib"
         run: make native
