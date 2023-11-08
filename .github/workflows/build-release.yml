@@ -80,7 +80,7 @@ jobs:
       - name: Display version
         run: echo $sqliteMCVersion $version $artifactVersion
       - name: List OpenSSL
-        run: ls "C:/Program Files/OpenSSL"
+        run: dir /x "C:/"
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
