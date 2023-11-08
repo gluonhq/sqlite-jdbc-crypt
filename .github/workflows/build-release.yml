@@ -86,4 +86,7 @@ jobs:
           OCI_EXE: docker
           CFLAGS: -I"C:/Program Files/OpenSSL/include"
           LDFLAGS: -L"C:/Program Files/OpenSSL/lib"
-        run: make native
+        run: |
+          make native
+          cat config.log
+          cat target/sqlcipher-3.39.4.0/config.log
