@@ -89,14 +89,13 @@ jobs:
           perl Configure VC-WIN64A --prefix=C:\openssl1.1.1
           nmake
           nmake install
-          ls C:\openssl1.1.1\include\openssl
-          ls C:\openssl1.1.1\bin
-          ls C:\openssl1.1.1\lib
+          cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.ddl C:\openssl1.1.1\bin\libcrypto.dll
+          cp C:\openssl1.1.1\bin\libssl-1_1-x64.ddl C:\openssl1.1.1\bin\libsll.dll
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
-          CFLAGS: -I"C:/Progra~1/OpenSSL/include"
-          LDFLAGS: -L"C:/Progra~1/OpenSSL/lib"
+          CFLAGS: -I"C:/openssl1.1.1/include"
+          LDFLAGS: -L"C:/openssl1.1.1/bin"
         run: |
           make native
           cat target/sqlcipher-3.39.4.0/config.log
