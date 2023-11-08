@@ -90,12 +90,12 @@ jobs:
           nmake
           nmake install
           cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll C:\openssl1.1.1\bin\libcrypto.dll
-          cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libsll.dll
+          cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
-          CFLAGS: -I"C:/openssl1.1.1/include"
-          LDFLAGS: -L"C:/openssl1.1.1/bin"
+          CFLAGS: -IC:/openssl1.1.1/include
+          LDFLAGS: -LC:/openssl1.1.1/bin
         run: |
           make native
           cat target/sqlcipher-3.39.4.0/config.log
