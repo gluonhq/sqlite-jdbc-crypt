@@ -82,7 +82,7 @@ jobs:
         run: echo $sqliteMCVersion $version $artifactVersion
       - name: Build OpenSSL
         run: |
-          wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz
+          Invoke-Webrequest -URI https://www.openssl.org/source/openssl-1.1.1w.tar.gz -OutFile openssl-1.1.1w.tar.gz
           tar zxf openssl-1.1.1w.tar.gz
           cd openssl-1.1.1w
           perl Configure VC-WIN64A --prefix=C:\openssl1.1.1
