@@ -98,4 +98,3 @@ jobs:
           LDFLAGS: -LC:/openssl1.1.1/bin
         run: |
           make native
-          cat target/sqlcipher-3.39.4.0/config.log
