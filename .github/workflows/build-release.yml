@@ -69,6 +69,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
+      - uses: ilammy/setup-nasm@v1
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
@@ -79,8 +80,15 @@ jobs:
         run: cat VERSION >> $GITHUB_ENV
       - name: Display version
         run: echo $sqliteMCVersion $version $artifactVersion
-      - name: List OpenSSL
-        run: ls "C:/Program Files/OpenSSL/lib"
+      - name: Build OpenSSL
+        run: |
+          wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz
+          tar zxf openssl-1.1.1w.tar.gz
+          cd openssl-1.1.1w
+          perl Configure VC-WIN64A --prefix=C:\openssl1.1.1
+          nmake
+          nmake install
+          ls C:\openssl1.1.1
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
