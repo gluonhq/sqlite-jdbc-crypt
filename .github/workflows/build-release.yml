@@ -79,14 +79,11 @@ jobs:
         run: cat VERSION >> $GITHUB_ENV
       - name: Display version
         run: echo $sqliteMCVersion $version $artifactVersion
-      - name: List OpenSSL
-        shell: cmd
-        run: dir /X "C:\"
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
-          CFLAGS: -I"C:/Program\ Files/OpenSSL/include"
-          LDFLAGS: -L"C:/Program\ Files/OpenSSL/lib"
+          CFLAGS: -I"C:/Progra~1/OpenSSL/include"
+          LDFLAGS: -L"C:/Progra~1/OpenSSL/lib"
         run: |
           make native
           cat target/sqlcipher-3.39.4.0/config.log
