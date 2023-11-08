@@ -7,6 +7,7 @@ on:
 
 jobs:
   build_natives:
+    if: false
     permissions:
       contents: write
     name: Build natives libraries
@@ -40,14 +41,6 @@ jobs:
           path: |
             ./sqlcipher-natives-${{ env.artifactVersion }}.zip
             ./target/*.jar
-
-#      - name: Prepare GPG sign
-#        if: startsWith(github.ref, 'refs/tags/')
-#        run: |
-#          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEY }} -iv ${{ secrets.ENCRYPTED_IV }} -in ./scripts/private.key.enc -out /tmp/private.key -d
-#          gpg --version
-#          gpg --batch --import /tmp/private.key
-#          rm /tmp/private.key
       - name: Deploy version
         env:
           GLUON_NEXUS_USERNAME: ${{ secrets.GLUON_NEXUS_USERNAME }}
@@ -69,4 +62,24 @@ jobs:
             ./target/sqlcipher-jdbc-${{ env.artifactVersion }}.jar.asc
             ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-javadoc.jar.asc
             ./target/sqlcipher-jdbc-${{ env.artifactVersion }}-sources.jar.asc
-
+  build-windows:
+    permissions:
+      contents: write
+    name: Build Windows native libraries
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: 17
+          java-package: jdk
+          cache: 'maven'
+      - name: Source versions from VERSION file
+        run: cat VERSION >> $GITHUB_ENV
+      - name: Display version
+        run: echo $sqliteMCVersion $version $artifactVersion
+      - name: Build binaries, test, and package
+        env:
+          OCI_EXE: docker
+        run: make native
