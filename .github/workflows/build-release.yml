@@ -79,6 +79,8 @@ jobs:
         run: cat VERSION >> $GITHUB_ENV
       - name: Display version
         run: echo $sqliteMCVersion $version $artifactVersion
+      - name: List OpenSSL
+        run: ls "C:/Program Files/OpenSSL"
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
