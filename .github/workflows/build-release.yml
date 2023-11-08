@@ -89,7 +89,8 @@ jobs:
           perl Configure VC-WIN64A --prefix=C:\openssl1.1.1
           nmake
           nmake install
-          ls C:\openssl1.1.1
+          ls C:\openssl1.1.1\include
+          ls C:\openssl1.1.1\lib
       - name: Build binaries, test, and package
         env:
           OCI_EXE: docker
