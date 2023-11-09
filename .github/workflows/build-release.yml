@@ -66,7 +66,7 @@ jobs:
       - name: Build OpenSSL
         if: runner.os == 'Windows'
         shell: bash
-        run: ls -l C:\openssl1.1.1\lib\
+        run: ls -l C:\\openssl1.1.1\\lib
 
       - name: Set platform classifier
         shell: bash
