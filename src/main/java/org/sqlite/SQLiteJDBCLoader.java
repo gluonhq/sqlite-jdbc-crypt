@@ -69,11 +69,11 @@ public class SQLiteJDBCLoader {
         if (!extracted) {
             cleanup();
         }
-        loadSQLiteNativeLibrary();
-        if (extracted && "Windows".equalsIgnoreCase(OSInfo.getOSName())) {
-            extracted = false;
+        if ("Windows".equalsIgnoreCase(OSInfo.getOSName())) {
             loadSQLiteOpenSslLibrary();
         }
+        extracted = false;
+        loadSQLiteNativeLibrary();
         return extracted;
     }
 
