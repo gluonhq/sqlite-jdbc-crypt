@@ -8,7 +8,7 @@ RESOURCE_DIR = src/main/resources
 all: jni-header package
 
 deploy:
-	mvn deploy -P release --settings settings.xml -Dgpg.skip=true -DskipStaging -Dclassifier=${CLASSIFIER}
+	mvn deploy -P release --settings settings.xml -DskipTests -Dgpg.skip=true -DskipStaging -Dclassifier=${CLASSIFIER}
 
 DOCKER_RUN_OPTS=--rm
 MVN:=mvn
@@ -239,7 +239,7 @@ mac-arm64-signed: mac-arm64
 
 package:
 	rm -rf target/dependency-maven-plugin-markers
-	$(MVN) package
+	$(MVN) package -DskipTests
 
 clean-native:
 	rm -rf $(SQLITE_OUT)

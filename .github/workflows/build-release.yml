@@ -53,10 +53,10 @@ jobs:
           cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll C:\openssl1.1.1\bin\libcrypto.dll
           cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
 
-      - name: Build binaries, test, and package
+      - name: Build binaries and package
         env:
           OCI_EXE: docker
-        run: make ${{ matrix.target }}
+        run: make ${{ matrix.target }} package
 
       - name: Set platform classifier
         run: |
@@ -84,4 +84,4 @@ jobs:
           GLUON_NEXUS_USERNAME: ${{ secrets.GLUON_NEXUS_USERNAME }}
           GLUON_NEXUS_PASSWORD: ${{ secrets.GLUON_NEXUS_PASSWORD }}
         if: startsWith(github.ref, 'refs/tags/')
-        run: make package deploy
+        run: make deploy
