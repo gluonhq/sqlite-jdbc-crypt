@@ -16,7 +16,9 @@ jobs:
         target: [ native ]
         include:
           - os: ubuntu-latest
-            target: [ mac64-signed, mac-arm64-signed]
+            target: mac64-signed
+          - os: ubuntu-latest
+            target: mac-arm64-signed
     runs-on: ${{ matrix.os }}
     steps:
       - name: Make space
