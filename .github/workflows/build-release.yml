@@ -55,8 +55,7 @@ jobs:
           cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
 
       - name: Zip OpenSSL build
-        shell: bash
-        run: zip -r openssl1.1.1w.zip C:\openssl1.1.1
+        run: Compress-Archive -Destination openssl1.1.1w.zip -Path C:\openssl1.1.1
       - uses: actions/upload-artifact@v3
         with:
           name: OpenSSL build
