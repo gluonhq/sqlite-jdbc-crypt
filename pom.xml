@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gluonhq</groupId>
     <artifactId>sqlcipher-jdbc</artifactId>
-    <version>3.41.2.1</version>
+    <version>3.39.4.1</version>
     <name>SQLite JDBC</name>
     <description>SQLite JDBC library with SQLCipher encryption and authentication support</description>
     <url>https://github.com/gluonhq/sqlite-jdbc-crypt</url>
