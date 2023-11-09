@@ -7,7 +7,6 @@ on:
 
 jobs:
   build_natives:
-    if: false
     permissions:
       contents: write
     name: Build natives libraries
