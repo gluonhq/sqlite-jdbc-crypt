@@ -72,7 +72,6 @@ jobs:
             then
               classifier=darwin-aarch64
             fi
-            classifier=linux
           elif [[ ${{ runner.os }} == "Windows" ]]
           then
             classifier=win-x86_64
