@@ -53,20 +53,18 @@ jobs:
           nmake install
           cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll C:\openssl1.1.1\bin\libcrypto.dll
           cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
+          zip -r openssl1.1.1w.zip C:\openssl1.1.1
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OpenSSL build
+          path: |
+            ./openssl1.1.1w.zip
 
       - name: Build binaries and package
         env:
           OCI_EXE: docker
         run: make ${{ matrix.target }} package
-
-      - name: Build OpenSSL
-        if: runner.os == 'Windows'
-        run: cp C:\openssl1.1.1\bin\libcrypto.dll src\main\resources\org\sqlite\native\Windows\x86_64\libcrypto.dll
-
-      - name: Build OpenSSL
-        if: runner.os == 'Windows'
-        shell: bash
-        run: ls -l C:\\openssl1.1.1\\lib
 
       - name: Set platform classifier
         shell: bash
