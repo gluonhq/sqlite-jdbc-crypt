@@ -12,7 +12,11 @@ jobs:
     name: Build natives libraries
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, windows-latest ]
+        target: [ native ]
+        include:
+          - os: ubuntu-latest
+            target: [ mac64-signed, mac-arm64-signed]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Make space
@@ -48,27 +52,26 @@ jobs:
           cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
 
       - name: Build binaries, test, and package
-        if: ${{ runner.os == 'Windows' || runner.os == 'Linux' }}
         env:
           OCI_EXE: docker
-        run: make native
-      - name: Build binaries, test, and package for macOS
-        if: runner.os == 'macOS'
-        env:
-          OCI_EXE: docker
-        run: make mac64-signed mac-arm64-signed
+        run: make ${{ matrix.target }}
 
       - name: Set platform classifier
         run: |
           if [[ ${{ runner.os }} == "Linux" ]]
           then
+            if [[ ${{ matrix.target }} == "native" ]]
+            then
+              classifier=linux-x86_64
+            elif [[ ${{ matrix.target }} == "mac64-signed" ]]
+              classifier=darwin-x86_64
+            elif [[ ${{ matrix.target }} == "mac-arm64-signed" ]]
+              classifier=darwin-aarch64
+            fi
             classifier=linux
-          elif [[ ${{ runner.os }} == "macOS" ]]
-          then
-            classifier=darwin
           elif [[ ${{ runner.os }} == "Windows" ]]
           then
-            classifier=win
+            classifier=win-x86_64
           fi
           echo "CLASSIFIER=$classifier" >> $GITHUB_ENV
 
