@@ -12,13 +12,14 @@ jobs:
     name: Build natives libraries
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        # os: [ ubuntu-latest, windows-latest ]
+        os: [ windows-latest ]
         target: [ native ]
-        include:
-          - os: ubuntu-latest
-            target: mac64-signed
-          - os: ubuntu-latest
-            target: mac-arm64-signed
+        # include:
+        #   - os: ubuntu-latest
+        #     target: mac64-signed
+        #   - os: ubuntu-latest
+        #     target: mac-arm64-signed
     runs-on: ${{ matrix.os }}
     steps:
       - name: Make space
@@ -61,6 +62,11 @@ jobs:
       - name: Build OpenSSL
         if: runner.os == 'Windows'
         run: cp C:\openssl1.1.1\bin\libcrypto.dll src\main\resources\org\sqlite\native\Windows\x86_64\libcrypto.dll
+
+      - name: Build OpenSSL
+        if: runner.os == 'Windows'
+        shell: bash
+        run: ls -l C:\openssl1.1.1\lib\
 
       - name: Set platform classifier
         shell: bash
