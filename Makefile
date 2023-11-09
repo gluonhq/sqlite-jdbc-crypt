@@ -158,6 +158,7 @@ win32: $(SQLITE_UNPACKED) jni-header
 	./docker/dockcross-windows-x86 -a $(DOCKER_RUN_OPTS) bash -c 'make clean-native native CROSS_PREFIX=i686-w64-mingw32.static- OS_NAME=Windows OS_ARCH=x86'
 
 win64: $(SQLITE_UNPACKED) jni-header
+	cp C:/openssl1.1.1/bin/libcrypto.dll $(NATIVE_DIR)
 	./docker/dockcross-windows-x64 -a $(DOCKER_RUN_OPTS) bash -c 'make clean-native native CROSS_PREFIX=x86_64-w64-mingw32.static- OS_NAME=Windows OS_ARCH=x86_64'
 
 win-armv7: $(SQLITE_UNPACKED) jni-header
