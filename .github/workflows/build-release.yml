@@ -66,8 +66,10 @@ jobs:
             then
               classifier=linux-x86_64
             elif [[ ${{ matrix.target }} == "mac64-signed" ]]
+            then
               classifier=darwin-x86_64
             elif [[ ${{ matrix.target }} == "mac-arm64-signed" ]]
+            then
               classifier=darwin-aarch64
             fi
             classifier=linux
