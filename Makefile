@@ -8,7 +8,7 @@ RESOURCE_DIR = src/main/resources
 all: jni-header package
 
 deploy:
-	mvn deploy -P release --settings settings.xml -Dgpg.skip=true -DskipStaging
+	mvn deploy -P release --settings settings.xml -Dgpg.skip=true -DskipStaging -Dclassifier=${CLASSIFIER}
 
 DOCKER_RUN_OPTS=--rm
 MVN:=mvn
@@ -236,7 +236,7 @@ mac64-signed: mac64
 mac-arm64-signed: mac-arm64
 	$(CODESIGN) src/main/resources/org/sqlite/native/Mac/aarch64/libsqlitejdbc.jnilib
 
-package: native-all
+package:
 	rm -rf target/dependency-maven-plugin-markers
 	$(MVN) package
 
