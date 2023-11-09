@@ -53,8 +53,10 @@ jobs:
           nmake install
           cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll C:\openssl1.1.1\bin\libcrypto.dll
           cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
-          zip -r openssl1.1.1w.zip C:\openssl1.1.1
 
+      - name: Zip OpenSSL build
+        shell: bash
+        run: zip -r openssl1.1.1w.zip C:\openssl1.1.1
       - uses: actions/upload-artifact@v3
         with:
           name: OpenSSL build
