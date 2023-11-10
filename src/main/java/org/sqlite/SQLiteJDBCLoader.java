@@ -69,10 +69,6 @@ public class SQLiteJDBCLoader {
         if (!extracted) {
             cleanup();
         }
-        if ("Windows".equalsIgnoreCase(OSInfo.getOSName())) {
-            loadSQLiteOpenSslLibrary();
-        }
-        extracted = false;
         loadSQLiteNativeLibrary();
         return extracted;
     }
@@ -196,10 +192,11 @@ public class SQLiteJDBCLoader {
      * @param libFolderForCurrentOS Library path.
      * @param libraryFileName Library name.
      * @param targetFolder Target folder.
+     * @param otherLibraryFileNames Other libraries to extract.
      * @return
      */
     private static boolean extractAndLoadLibraryFile(
-            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {
+            String libFolderForCurrentOS, String libraryFileName, String targetFolder, String...otherLibraryFileNames) {
         String nativeLibraryFilePath = libFolderForCurrentOS + "/" + libraryFileName;
         // Include architecture name in temporary filename in order to avoid conflicts
         // when multiple JVMs with different architectures running at the same time
@@ -212,6 +209,20 @@ public class SQLiteJDBCLoader {
         Path extractedLckFile = Paths.get(targetFolder, extractedLckFileName);
 
         try {
+            // Extract the other library files into the target directory
+            for (String otherLibraryFileName : otherLibraryFileNames) {
+                String otherLibraryFilePath = libFolderForCurrentOS + "/" + otherLibraryFileName;
+                System.out.println("OTHERLIB.Path: " + otherLibraryFilePath);
+
+                Path extractedOtherLibFile = Paths.get(targetFolder, otherLibraryFileNames);
+                try (InputStream reader = getResourceAsStream(otherLibraryFilePath)) {
+                    Files.copy(reader, extractedOtherLibFile, StandardCopyOption.REPLACE_EXISTING);
+                } finally {
+                    extractedOtherLibFile.toFile().deleteOnExit();
+                }
+                loadNativeLibrary(targetFolder, otherLibraryFileName);
+            }
+
             // Extract a native library file into the target directory
             try (InputStream reader = getResourceAsStream(nativeLibraryFilePath)) {
                 if (Files.notExists(extractedLckFile)) {
@@ -317,8 +328,10 @@ public class SQLiteJDBCLoader {
         // Try loading library from org.sqlite.lib.path library path */
         String sqliteNativeLibraryPath = System.getProperty("org.sqlite.lib.path");
         String sqliteNativeLibraryName = System.getProperty("org.sqlite.lib.name");
+        String sqliteOpenSslLibraryName = System.getProperty("org.sqlite.openssl.lib.name");
         if (sqliteNativeLibraryName == null) {
             sqliteNativeLibraryName = LibraryLoaderUtil.getNativeLibName();
+            sqliteOpenSslLibraryName = LibraryLoaderUtil.getNativeLibName("libcrypto-1_1-x64");
         }
 
         if (sqliteNativeLibraryPath != null) {
@@ -336,11 +349,18 @@ public class SQLiteJDBCLoader {
                 LibraryLoaderUtil.hasNativeLib(sqliteNativeLibraryPath, sqliteNativeLibraryName);
 
         if (hasNativeLib) {
+            String[] extraLibNames = new String[] {};
+            if ("Windows".equalsIgnoreCase(OSInfo.getOSName())) {
+                extraLibNames = new String[] {
+                    sqliteOpenSslLibraryName
+                };
+            }
+
             // temporary library folder
             String tempFolder = getTempDir().getAbsolutePath();
             // Try extracting the library from jar
             if (extractAndLoadLibraryFile(
-                    sqliteNativeLibraryPath, sqliteNativeLibraryName, tempFolder)) {
+                    sqliteNativeLibraryPath, sqliteNativeLibraryName, tempFolder, extraLibNames)) {
                 extracted = true;
                 return;
             } else {
@@ -366,70 +386,6 @@ public class SQLiteJDBCLoader {
         throw new Exception(
                 String.format(
                         "No native library found for os.name=%s, os.arch=%s, paths=[%s]",
-                        OSInfo.getOSName(),
-                        OSInfo.getArchName(),
-                        StringUtils.join(triedPaths, File.pathSeparator)));
-    }
-
-    private static void loadSQLiteOpenSslLibrary() throws Exception {
-        if (extracted) {
-            return;
-        }
-
-        List<String> triedPaths = new LinkedList<>();
-
-        // Try loading library from org.sqlite.lib.path library path */
-        String sqliteNativeLibraryPath = System.getProperty("org.sqlite.lib.path");
-        String sqliteOpenSslLibraryName = System.getProperty("org.sqlite.openssl.lib.name");
-        if (sqliteOpenSslLibraryName == null) {
-            sqliteOpenSslLibraryName = LibraryLoaderUtil.getNativeLibName("crypto");
-        }
-
-        if (sqliteNativeLibraryPath != null) {
-            if (loadNativeLibrary(sqliteNativeLibraryPath, sqliteOpenSslLibraryName)) {
-                extracted = true;
-                return;
-            } else {
-                triedPaths.add(sqliteNativeLibraryPath);
-            }
-        }
-
-        // Load the os-dependent library from the jar file
-        sqliteNativeLibraryPath = LibraryLoaderUtil.getNativeLibResourcePath();
-        boolean hasNativeLib =
-                LibraryLoaderUtil.hasNativeLib(sqliteNativeLibraryPath, sqliteOpenSslLibraryName);
-
-        if (hasNativeLib) {
-            // temporary library folder
-            String tempFolder = getTempDir().getAbsolutePath();
-            // Try extracting the library from jar
-            if (extractAndLoadLibraryFile(
-                    sqliteNativeLibraryPath, sqliteOpenSslLibraryName, tempFolder)) {
-                extracted = true;
-                return;
-            } else {
-                triedPaths.add(sqliteNativeLibraryPath);
-            }
-        }
-
-        // As a last resort try from java.library.path
-        String javaLibraryPath = System.getProperty("java.library.path", "");
-        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {
-            if (ldPath.isEmpty()) {
-                continue;
-            }
-            if (loadNativeLibrary(ldPath, sqliteOpenSslLibraryName)) {
-                extracted = true;
-                return;
-            } else {
-                triedPaths.add(ldPath);
-            }
-        }
-
-        extracted = false;
-        throw new Exception(
-                String.format(
-                        "No openssl library found for os.name=%s, os.arch=%s, paths=[%s]",
                         OSInfo.getOSName(),
                         OSInfo.getArchName(),
                         StringUtils.join(triedPaths, File.pathSeparator)));

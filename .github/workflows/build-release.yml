@@ -12,14 +12,13 @@ jobs:
     name: Build natives libraries
     strategy:
       matrix:
-        # os: [ ubuntu-latest, windows-latest ]
-        os: [ windows-latest ]
+        os: [ ubuntu-latest, windows-latest ]
         target: [ native ]
-        # include:
-        #   - os: ubuntu-latest
-        #     target: mac64-signed
-        #   - os: ubuntu-latest
-        #     target: mac-arm64-signed
+        include:
+          - os: ubuntu-latest
+            target: mac64-signed
+          - os: ubuntu-latest
+            target: mac-arm64-signed
     runs-on: ${{ matrix.os }}
     steps:
       - name: Make space
@@ -51,21 +50,18 @@ jobs:
           perl Configure VC-WIN64A --prefix=C:\openssl1.1.1
           nmake
           nmake install
-          cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll C:\openssl1.1.1\bin\libcrypto.dll
-          cp C:\openssl1.1.1\bin\libssl-1_1-x64.dll C:\openssl1.1.1\bin\libssl.dll
 
-      - name: Zip OpenSSL build
-        run: Compress-Archive -Destination openssl1.1.1w.zip -Path C:\openssl1.1.1
-      - uses: actions/upload-artifact@v3
-        with:
-          name: OpenSSL build
-          path: |
-            ./openssl1.1.1w.zip
-
-      - name: Build binaries and package
+      - name: Build binaries
         env:
           OCI_EXE: docker
         run: make ${{ matrix.target }} package
+
+      - name: Copy OpenSSL library
+        if: runner.os == 'Windows'
+        run: cp C:\openssl1.1.1\bin\libcrypto-1_1-x64.dll src/main/resources/org/sqlite/native/Windows/x86_64/libcrypto-1_1-x64.dll
+
+      - name: Package
+        run: make package
 
       - name: Set platform classifier
         shell: bash
