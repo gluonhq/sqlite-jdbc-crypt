@@ -196,7 +196,10 @@ public class SQLiteJDBCLoader {
      * @return
      */
     private static boolean extractAndLoadLibraryFile(
-            String libFolderForCurrentOS, String libraryFileName, String targetFolder, String...otherLibraryFileNames) {
+            String libFolderForCurrentOS,
+            String libraryFileName,
+            String targetFolder,
+            String... otherLibraryFileNames) {
         String nativeLibraryFilePath = libFolderForCurrentOS + "/" + libraryFileName;
         // Include architecture name in temporary filename in order to avoid conflicts
         // when multiple JVMs with different architectures running at the same time
@@ -351,9 +354,7 @@ public class SQLiteJDBCLoader {
         if (hasNativeLib) {
             String[] extraLibNames = new String[] {};
             if ("Windows".equalsIgnoreCase(OSInfo.getOSName())) {
-                extraLibNames = new String[] {
-                    sqliteOpenSslLibraryName
-                };
+                extraLibNames = new String[] {sqliteOpenSslLibraryName};
             }
 
             // temporary library folder
