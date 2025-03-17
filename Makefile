@@ -8,7 +8,7 @@ RESOURCE_DIR = src/main/resources
 all: jni-header package
 
 deploy:
-	mvn deploy:deploy-file -Dfile=target/sqlcipher-jdbc-$(artifactVersion)-${CLASSIFIER}.jar -DrepositoryId=gluon-nexus -Durl=https://nexus.gluonhq.com/nexus/content/repositories/releases -P release --settings settings.xml -DskipTests -Dgpg.skip=true -DskipStaging -Dclassifier=${CLASSIFIER}
+	mvn deploy:deploy-file -Dfile=target/sqlcipher-jdbc-$(artifactVersion).jar -DrepositoryId=gluon-nexus -Durl=https://nexus.gluonhq.com/nexus/content/repositories/releases -P release --settings settings.xml -DskipTests -Dgpg.skip=true -DskipStaging -Dclassifier=${CLASSIFIER}
 
 DOCKER_RUN_OPTS=--rm
 MVN:=mvn
