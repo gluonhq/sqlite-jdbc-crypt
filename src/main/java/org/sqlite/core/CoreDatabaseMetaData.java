@@ -57,14 +57,18 @@ public abstract class CoreDatabaseMetaData implements DatabaseMetaData {
 
     public abstract ResultSet getGeneratedKeys() throws SQLException;
 
-    /** @throws SQLException */
+    /**
+     * @throws SQLException
+     */
     protected void checkOpen() throws SQLException {
         if (conn == null) {
             throw new SQLException("connection closed");
         }
     }
 
-    /** @throws SQLException */
+    /**
+     * @throws SQLException
+     */
     public synchronized void close() throws SQLException {
         if (conn == null) {
             return;
@@ -198,7 +202,9 @@ public abstract class CoreDatabaseMetaData implements DatabaseMetaData {
                     ".*\\sCONSTRAINT\\s+(.*?)\\s+PRIMARY\\s+KEY\\s+\\((.*?)\\).*",
                     Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-    /** @see java.lang.Object#finalize() */
+    /**
+     * @see java.lang.Object#finalize()
+     */
     protected void finalize() throws Throwable {
         close();
     }

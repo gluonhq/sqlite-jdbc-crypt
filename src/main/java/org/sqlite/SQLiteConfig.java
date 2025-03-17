@@ -338,7 +338,9 @@ public class SQLiteConfig {
         return getBoolean(Pragma.LOAD_EXTENSION, "false");
     }
 
-    /** @return The open mode flags. */
+    /**
+     * @return The open mode flags.
+     */
     public int getOpenModeFlags() {
         return openModeFlag;
     }
@@ -377,7 +379,9 @@ public class SQLiteConfig {
         return pragmaTable;
     }
 
-    /** @return Array of DriverPropertyInfo objects. */
+    /**
+     * @return Array of DriverPropertyInfo objects.
+     */
     static DriverPropertyInfo[] getDriverPropertyInfo() {
         Pragma[] pragma = Pragma.values();
         DriverPropertyInfo[] result = new DriverPropertyInfo[pragma.length];
@@ -395,7 +399,9 @@ public class SQLiteConfig {
 
     private static final String[] OnOff = new String[] {"true", "false"};
 
-    /** @return true if explicit read only transactions are enabled */
+    /**
+     * @return true if explicit read only transactions are enabled
+     */
     public boolean isExplicitReadOnly() {
         return this.explicitReadOnly;
     }
@@ -1229,7 +1235,9 @@ public class SQLiteConfig {
     }
 
     public enum TransactionMode implements PragmaValue {
-        /** @deprecated Use {@code DEFERRED} instead. */
+        /**
+         * @deprecated Use {@code DEFERRED} instead.
+         */
         @Deprecated
         DEFFERED,
         DEFERRED,
@@ -1270,7 +1278,9 @@ public class SQLiteConfig {
         setTransactionMode(TransactionMode.getMode(transactionMode));
     }
 
-    /** @return The transaction mode. */
+    /**
+     * @return The transaction mode.
+     */
     public TransactionMode getTransactionMode() {
         return this.defaultConnectionConfig.getTransactionMode();
     }
@@ -1288,7 +1298,9 @@ public class SQLiteConfig {
         }
     }
 
-    /** @param datePrecision One of SECONDS or MILLISECONDS */
+    /**
+     * @param datePrecision One of SECONDS or MILLISECONDS
+     */
     public void setDatePrecision(String datePrecision) {
         this.defaultConnectionConfig.setDatePrecision(DatePrecision.getPrecision(datePrecision));
     }
@@ -1307,17 +1319,23 @@ public class SQLiteConfig {
         }
     }
 
-    /** @param dateClass One of INTEGER, TEXT or REAL */
+    /**
+     * @param dateClass One of INTEGER, TEXT or REAL
+     */
     public void setDateClass(String dateClass) {
         this.defaultConnectionConfig.setDateClass(DateClass.getDateClass(dateClass));
     }
 
-    /** @param dateStringFormat Format of date string */
+    /**
+     * @param dateStringFormat Format of date string
+     */
     public void setDateStringFormat(String dateStringFormat) {
         this.defaultConnectionConfig.setDateStringFormat(dateStringFormat);
     }
 
-    /** @param milliseconds Connect to DB timeout in milliseconds */
+    /**
+     * @param milliseconds Connect to DB timeout in milliseconds
+     */
     public void setBusyTimeout(int milliseconds) {
         setPragma(Pragma.BUSY_TIMEOUT, Integer.toString(milliseconds));
     }
