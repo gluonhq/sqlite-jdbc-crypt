@@ -12,14 +12,14 @@ jobs:
     name: Build natives libraries
     strategy:
       matrix:
-        os: [ ubuntu-20.04, windows-latest ]
+        os: [ ubuntu-22.04, windows-latest ]
         target: [ native ]
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: linux-arm64
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: mac64-signed
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: mac-arm64-signed
     runs-on: ${{ matrix.os }}
     steps:
